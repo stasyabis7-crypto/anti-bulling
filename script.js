@@ -25,6 +25,32 @@ const storyContent = {
   ]
 };
 
+const heroSlides = [...document.querySelectorAll('.hero-slide')];
+const heroDots = [...document.querySelectorAll('.pager button')];
+const heroPager = document.querySelector('.pager');
+let activeHeroSlide = 0;
+let heroTimer;
+
+const showHeroSlide = (index) => {
+  activeHeroSlide = (index + heroSlides.length) % heroSlides.length;
+  heroSlides.forEach((slide, slideIndex) => slide.classList.toggle('active', slideIndex === activeHeroSlide));
+  heroDots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === activeHeroSlide));
+  heroPager.setAttribute('aria-label', `Слайд ${activeHeroSlide + 1} из 3`);
+};
+
+const startHeroCarousel = () => {
+  window.clearInterval(heroTimer);
+  heroTimer = window.setInterval(() => showHeroSlide(activeHeroSlide + 1), 4000);
+};
+
+heroDots.forEach((dot, index) => dot.addEventListener('click', () => {
+  showHeroSlide(index);
+  startHeroCarousel();
+}));
+document.querySelector('.hero-carousel').addEventListener('pointerenter', () => window.clearInterval(heroTimer));
+document.querySelector('.hero-carousel').addEventListener('pointerleave', startHeroCarousel);
+startHeroCarousel();
+
 document.querySelectorAll('.tab').forEach((tab) => {
   tab.addEventListener('click', () => {
     const audience = tab.dataset.audience;
