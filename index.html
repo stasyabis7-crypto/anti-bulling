@@ -25,30 +25,32 @@
 
     <section class="section situations">
       <h2 class="title">Возможные<br>ситуации</h2>
-      <div class="tabs" role="tablist">
-        <button class="tab active">Для детей</button>
-        <button class="tab">Для взрослых</button>
+      <div class="tabs" role="tablist" aria-label="Ситуации">
+        <button class="tab active" role="tab" aria-selected="true" data-audience="children">Для детей</button>
+        <button class="tab" role="tab" aria-selected="false" data-audience="adults">Для взрослых</button>
       </div>
-      <article class="story">
+      <div class="stories" aria-live="polite">
+      <article class="story" data-story="0">
         <img src="./assets main page/img 1 card.png" alt="">
         <h3 class="subtitle">Я подросток, и мне<br>плохо в классе</h3>
         <p class="body">Куда обратиться, как попросить помощи,<br>что сказать взрослым</p>
-        <button class="button button--dark">Посмотреть мультик</button>
+        <button class="button button--dark story-primary">Посмотреть мультик</button>
         <button class="button button--light">Читать подробнее</button>
       </article>
-      <article class="story">
+      <article class="story" data-story="1">
         <img src="./assets main page/img 2 card.png" alt="">
         <h3 class="subtitle">Я вижу, что травят<br>другого</h3>
         <p class="body">Что может сделать свидетель</p>
         <button class="button button--dark">Читать подробнее</button>
       </article>
+      </div>
       <button class="button button--muted">Посмотреть все</button>
     </section>
 
     <section class="section importance">
       <h2 class="title">Почему это важно</h2>
-      <img class="why-card why-card--one" src="./assets main page/card 1 why.png" alt="75% детей были жертвами или свидетелями травли">
-      <img class="why-card why-card--two" src="./assets main page/card 2 why.png" alt="76% детей замечали проявление агрессии к сверстникам">
+      <button class="why-card why-card--one" data-source="По результатам опроса «Движения первых» в 2024 г." aria-label="Источник данных о 75 процентах"><img src="./assets main page/card 1 why.png" alt="75% детей были жертвами или свидетелями травли"></button>
+      <button class="why-card why-card--two" data-source="Данные исследования Group4Media и АНО БО «Журавлик», 2023 г." aria-label="Источник данных о 76 процентах"><img src="./assets main page/card 2 why.png" alt="76% детей замечали проявление агрессии к сверстникам"></button>
     </section>
 
     <section class="section answers">
@@ -64,10 +66,12 @@
 
     <section class="section cartoons">
       <h2 class="title">Мультфильмы</h2>
-      <div class="scroller">
-        <div class="movie"><img src="./assets main page/mult 1.png" alt=""><img class="play" src="./assets main page/btn play.svg" alt="Смотреть"><span>1 из 3</span></div>
-        <div class="movie"><img src="./assets main page/mult 2.png" alt=""><img class="play" src="./assets main page/btn play.svg" alt="Смотреть"></div>
+      <div class="scroller" aria-label="Мультфильмы">
+        <div class="movie"><img src="./assets main page/mult 1.png" alt="Мультфильм 1"><img class="play" src="./assets main page/btn play.svg" alt="Смотреть"></div>
+        <div class="movie"><img src="./assets main page/mult 2.png" alt="Мультфильм 2"><img class="play" src="./assets main page/btn play.svg" alt="Смотреть"></div>
+        <div class="movie"><img src="./assets main page/mult 1.png" alt="Мультфильм 3"><img class="play" src="./assets main page/btn play.svg" alt="Смотреть"></div>
       </div>
+      <span class="movie-counter">1 из 3</span>
       <button class="button button--muted">Посмотреть все</button>
     </section>
 
@@ -91,6 +95,13 @@
       <button class="button button--dark">Хочу помочь</button>
     </section>
   </main>
+  <div class="sheet-backdrop" hidden>
+    <section class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="source-title">
+      <button class="sheet-close" aria-label="Закрыть">×</button>
+      <h2 class="subtitle" id="source-title">Источник данных</h2>
+      <p class="sheet-text"></p>
+    </section>
+  </div>
   <script src="./script.js"></script>
 </body>
 </html>
