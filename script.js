@@ -28,14 +28,15 @@ const storyContent = {
 const heroSlides = [...document.querySelectorAll('.hero-slide')];
 const heroDots = [...document.querySelectorAll('.pager button')];
 const heroPager = document.querySelector('.pager');
+const heroCarousel = document.querySelector('.hero-carousel');
 let activeHeroSlide = 0;
 let heroTimer;
 
 const showHeroSlide = (index) => {
   activeHeroSlide = (index + heroSlides.length) % heroSlides.length;
-  heroSlides.forEach((slide, slideIndex) => slide.classList.toggle('active', slideIndex === activeHeroSlide));
   heroDots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === activeHeroSlide));
   heroPager.setAttribute('aria-label', `Слайд ${activeHeroSlide + 1} из 3`);
+  heroCarousel.scrollTo({ left: activeHeroSlide * heroCarousel.clientWidth, behavior: 'smooth' });
 };
 
 const startHeroCarousel = () => {
@@ -47,8 +48,19 @@ heroDots.forEach((dot, index) => dot.addEventListener('click', () => {
   showHeroSlide(index);
   startHeroCarousel();
 }));
-document.querySelector('.hero-carousel').addEventListener('pointerenter', () => window.clearInterval(heroTimer));
-document.querySelector('.hero-carousel').addEventListener('pointerleave', startHeroCarousel);
+heroCarousel.addEventListener('scroll', () => {
+  const index = Math.round(heroCarousel.scrollLeft / heroCarousel.clientWidth);
+  if (index !== activeHeroSlide) {
+    activeHeroSlide = index;
+    heroDots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === activeHeroSlide));
+    heroPager.setAttribute('aria-label', `Слайд ${activeHeroSlide + 1} из 3`);
+  }
+}, { passive: true });
+heroCarousel.addEventListener('pointerdown', () => window.clearInterval(heroTimer));
+heroCarousel.addEventListener('pointerup', startHeroCarousel);
+heroCarousel.addEventListener('pointercancel', startHeroCarousel);
+heroCarousel.addEventListener('pointerenter', () => window.clearInterval(heroTimer));
+heroCarousel.addEventListener('pointerleave', startHeroCarousel);
 startHeroCarousel();
 
 document.querySelectorAll('.tab').forEach((tab) => {
