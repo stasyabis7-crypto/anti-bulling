@@ -3,24 +3,36 @@ const storyContent = {
     {
       title: 'Я подросток, и мне<br>плохо в классе',
       text: 'Куда обратиться, как попросить помощи,<br>что сказать взрослым',
-      primary: 'Посмотреть мультик'
+      primary: 'Посмотреть мультик',
+      showSecondary: true,
+      image: './assets main page/img 1 card.png',
+      imageAlt: ''
     },
     {
       title: 'Я вижу, что травят<br>другого',
       text: 'Что может сделать свидетель',
-      primary: 'Читать подробнее'
+      primary: 'Читать подробнее',
+      showSecondary: false,
+      image: './assets main page/img 2 card.png',
+      imageAlt: ''
     }
   ],
   adults: [
     {
       title: 'Моего ребёнка<br>травят в школе',
       text: 'Как заметить травлю и правильно<br>поддержать ребёнка',
-      primary: 'Читать подробнее'
+      primary: 'Читать подробнее',
+      showSecondary: false,
+      image: './assets main page/adult-card-choice.png',
+      imageAlt: 'Положительная, нейтральная и отрицательная реакции'
     },
     {
       title: 'Мой ребёнок травит<br>другого',
       text: 'Как поговорить без обвинений<br>и остановить агрессию',
-      primary: 'Читать подробнее'
+      primary: 'Читать подробнее',
+      showSecondary: false,
+      image: './assets main page/img 2 card.png',
+      imageAlt: ''
     }
   ]
 };
@@ -77,6 +89,11 @@ document.querySelectorAll('.tab').forEach((tab) => {
       story.querySelector('.subtitle').innerHTML = content.title;
       story.querySelector('.body').innerHTML = content.text;
       story.querySelector('.button--dark').textContent = content.primary;
+      const secondaryButton = story.querySelector('.button--light');
+      if (secondaryButton) secondaryButton.hidden = !content.showSecondary;
+      const storyImage = story.querySelector('img');
+      storyImage.src = content.image;
+      storyImage.alt = content.imageAlt;
     });
   });
 });
