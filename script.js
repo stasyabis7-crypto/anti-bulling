@@ -31,8 +31,8 @@ const storyContent = {
       text: 'Как поговорить без обвинений<br>и остановить агрессию',
       primary: 'Читать подробнее',
       showSecondary: false,
-      image: './assets main page/img 2 card.png',
-      imageAlt: ''
+      image: './assets main page/adult-card-aggressor.png',
+      imageAlt: 'Один ребёнок толкает другого'
     }
   ]
 };

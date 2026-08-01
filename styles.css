@@ -17,3 +17,5 @@
 .project-card--game .project-card__tape{transform:rotate(40deg)}
 .hero-slide.project-card--movies .project-card__tape{left:calc(-17*var(--u));transform:none}
 .project-card--situations .project-card__tape{transform:none}
+
+.scroller{align-items:flex-start}.movie{height:auto;overflow:visible}.movie-media{position:relative;width:100%;height:calc(200*var(--u));overflow:hidden;border-radius:calc(20*var(--u))}.movie-media>img:first-child{display:block;width:100%;height:100%;object-fit:cover}.movie-copy{padding:calc(14*var(--u)) calc(4*var(--u)) 0}.movie-copy h3,.movie-copy p{margin:0}.movie-copy h3{font-size:calc(18*var(--u));line-height:calc(22*var(--u));font-weight:700}.movie-copy p{margin-top:calc(4*var(--u));font-size:calc(15*var(--u));line-height:calc(20*var(--u))}.movie-counter{left:calc(24*var(--u))}
