@@ -346,7 +346,7 @@ const trainerSetup = document.querySelector('.trainer-setup');
 const trainerGame = document.querySelector('.trainer-game');
 const trainerSuccess = document.querySelector('.trainer-success');
 const exitDialog = document.querySelector('.exit-dialog');
-const trainerState = { role: 'parent', count: 10, cards: [], index: 0, flipped: false, returnSelector: '.trainer' };
+const trainerState = { role: 'parent', count: 10, customCount: false, cards: [], index: 0, flipped: false, returnSelector: '.trainer' };
 
 const setChip = (group, value) => {
   group.querySelectorAll('.trainer-chip').forEach((chip) => chip.classList.toggle('active', chip.dataset.value === value));
@@ -367,12 +367,7 @@ document.querySelectorAll('.trainer-chips').forEach((group) => {
 });
 
 document.querySelector('.trainer-common input').addEventListener('change', (event) => {
-  const roleGroup = document.querySelector('[data-setting="role"]');
-  if (event.target.checked) {
-    roleGroup.querySelectorAll('.trainer-chip').forEach((chip) => chip.classList.remove('active'));
-  } else {
-    setChip(roleGroup, trainerState.role);
-  }
+  setChip(document.querySelector('[data-setting="role"]'), trainerState.role);
 });
 
 document.querySelectorAll('[data-type-info]').forEach((button) => {
@@ -404,16 +399,17 @@ document.querySelector('.trainer-shuffle:not(.trainer-common) input').addEventLi
   typeButtons.forEach((button, index) => button.classList.toggle('active', event.target.checked || index === 0));
 });
 
-const setTrainerCount = (value) => {
+const setTrainerCount = (value, custom = false) => {
   trainerState.count = Math.max(1, Math.min(45, Number(value) || 10));
+  trainerState.customCount = custom;
   document.querySelector('.trainer-count>span').textContent = trainerState.count;
 };
 
 document.querySelector('.trainer-count').addEventListener('click', () => {
   openSheet('Количество карт', `
     <div class="count-options">
-      ${[5, 10, 15, 20].map((value) => `<label><input type="radio" name="card-count" value="${value}" ${trainerState.count === value ? 'checked' : ''}><span>${value} карт</span></label>`).join('')}
-      <label class="custom-count"><input type="radio" name="card-count" value="custom"><span>Своё количество</span></label>
+      ${[5, 10, 15, 20].map((value) => `<label><input type="radio" name="card-count" value="${value}" ${!trainerState.customCount && trainerState.count === value ? 'checked' : ''}><span>${value} карт</span></label>`).join('')}
+      <label class="custom-count"><input type="radio" name="card-count" value="custom" ${trainerState.customCount ? 'checked' : ''}><span>Своё количество</span></label>
       <div class="custom-count-row"><input type="number" min="1" max="45" value="${trainerState.count}" aria-label="Своё количество карт"><button class="button button--dark apply-count" type="button">Готово</button></div>
     </div>
   `);
@@ -421,7 +417,7 @@ document.querySelector('.trainer-count').addEventListener('click', () => {
 
 sheetContent.addEventListener('change', (event) => {
   if (event.target.name !== 'card-count' || event.target.value === 'custom') return;
-  setTrainerCount(event.target.value);
+  setTrainerCount(event.target.value, false);
   closeSheet();
 });
 sheetContent.addEventListener('input', (event) => {
@@ -431,7 +427,7 @@ sheetContent.addEventListener('input', (event) => {
 });
 sheetContent.addEventListener('click', (event) => {
   if (!event.target.closest('.apply-count')) return;
-  setTrainerCount(sheetContent.querySelector('.custom-count-row input').value);
+  setTrainerCount(sheetContent.querySelector('.custom-count-row input').value, true);
   closeSheet();
 });
 
@@ -453,7 +449,7 @@ const buildDeck = () => {
     openSheet('Нет подходящих карточек', 'В выбранной колоде нет карточек этого типа. Выберите другой тип или включите общую колоду.');
     return false;
   }
-  if (document.querySelector('.trainer-shuffle input').checked) pool = shuffled(pool);
+  if (document.querySelector('.trainer-shuffle:not(.trainer-common) input').checked) pool = shuffled(pool);
   trainerState.cards = pool.slice(0, Math.min(trainerState.count, pool.length));
   trainerState.index = 0;
   trainerState.flipped = false;
