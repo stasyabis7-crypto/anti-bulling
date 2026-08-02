@@ -60,16 +60,16 @@
         <h3 class="subtitle">Я подросток, и мне<br>плохо в классе</h3>
         <p class="body">Куда обратиться, как попросить помощи,<br>что сказать взрослым</p>
         <button class="button button--dark story-primary">Посмотреть мультик</button>
-        <button class="button button--light">Читать подробнее</button>
+        <button class="button button--light story-read">Читать подробнее</button>
       </article>
       <article class="story" data-story="1">
         <img src="./assets main page/img 2 card.png" alt="">
         <h3 class="subtitle">Я вижу, что травят<br>другого</h3>
         <p class="body">Что может сделать свидетель</p>
-        <button class="button button--dark">Читать подробнее</button>
+        <button class="button button--dark story-read">Читать подробнее</button>
       </article>
       </div>
-      <button class="button button--muted">Посмотреть все</button>
+      <button class="button button--muted situations-all">Посмотреть все</button>
     </section>
 
     <section class="section importance">
@@ -128,11 +128,12 @@
 
     <section class="section help">
       <h2 class="title">Куда обращаться<br>за помощью</h2>
-      <a class="help-card" href="tel:88002000122">
+      <div class="help-card help-card--phone">
         <img src="./assets main page/help-phone.png" alt="Разговор двух детей">
         <b>Всероссийский телефон доверия<br>для детей и подростков</b>
-        <u>8−800−2000−122</u>
-      </a>
+        <span class="help-phone">8−800−2000−122</span>
+        <a class="button button--dark help-call" href="tel:88002000122">Позвонить</a>
+      </div>
       <div class="help-card help-card--action">
         <img src="./assets main page/help-center.png" alt="Взрослый поддерживает ребёнка">
         <b>Психологический центр<br>Перекрёсток</b>
@@ -140,11 +141,24 @@
       </div>
     </section>
   </main>
+  <main class="materials-page" hidden>
+    <header class="materials-header">
+      <button class="materials-back" type="button" aria-label="Вернуться назад">←</button>
+      <h1 class="title">Все материалы</h1>
+    </header>
+    <section class="section materials-content">
+      <div class="tabs materials-tabs" role="tablist" aria-label="Материалы">
+        <button class="tab active" role="tab" aria-selected="true" data-materials-audience="children">Для детей</button>
+        <button class="tab" role="tab" aria-selected="false" data-materials-audience="adults">Для взрослых</button>
+      </div>
+      <div class="materials-list"></div>
+    </section>
+  </main>
   <div class="sheet-backdrop" hidden>
     <section class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="source-title">
       <button class="sheet-close" aria-label="Закрыть">×</button>
-      <h2 class="subtitle" id="source-title">Источник данных</h2>
-      <p class="sheet-text"></p>
+      <h2 class="subtitle sheet-title" id="source-title">Источник данных</h2>
+      <div class="sheet-content"></div>
     </section>
   </div>
   <script src="./script.js"></script>
