@@ -24,7 +24,7 @@
           <div class="project-card__paper">
             <img class="project-card__picture" src="./assets main page/hero cards/card-game.png" alt="Дети держатся за руки, один ребёнок стоит в стороне">
             <div class="project-card__copy"><h2>Карточная игра</h2><p>Ситуации, вопросы<br>и советы, чтобы обсудить буллинг</p></div>
-            <button class="project-card__button" type="button">Играть</button>
+            <button class="project-card__button hero-trainer-button" type="button">Играть</button>
           </div>
           <img class="project-card__tape" src="./assets main page/hero cards/red-tape.png" alt="">
         </article>
@@ -32,7 +32,7 @@
           <div class="project-card__paper">
             <img class="project-card__picture" src="./assets main page/hero cards/cartoons.png" alt="Один ребёнок толкает другого, свидетель стоит рядом">
             <div class="project-card__copy"><h2>Мультфильмы</h2><p>Короткометражные мультики,<br>которые показывают, как поступать</p></div>
-            <button class="project-card__button" type="button">Смотреть</button>
+            <button class="project-card__button hero-movies-button" type="button">Смотреть</button>
           </div>
           <img class="project-card__tape" src="./assets main page/hero cards/yellow-tape.png" alt="">
         </article>
@@ -144,9 +144,10 @@
   <main class="materials-page" hidden>
     <header class="materials-header">
       <button class="materials-back" type="button" aria-label="Вернуться назад"><img src="./assets main page/arrow-back.svg" alt=""></button>
-      <h1 class="title">Все материалы</h1>
+      <span class="secondary-header-title">Полезные материалы</span>
     </header>
     <section class="section materials-content">
+      <h1 class="title secondary-page-title">Полезные материалы</h1>
       <div class="tabs materials-tabs" role="tablist" aria-label="Материалы">
         <button class="tab active" role="tab" aria-selected="true" data-materials-audience="children">Для детей</button>
         <button class="tab" role="tab" aria-selected="false" data-materials-audience="adults">Для взрослых</button>
@@ -157,12 +158,98 @@
   <main class="movies-page" hidden>
     <header class="materials-header">
       <button class="movies-back materials-back" type="button" aria-label="Вернуться назад"><img src="./assets main page/arrow-back.svg" alt=""></button>
-      <h1 class="title">Все мультфильмы</h1>
+      <span class="secondary-header-title">Мультфильмы</span>
     </header>
     <section class="section movies-content">
+      <h1 class="title secondary-page-title">Мультфильмы</h1>
       <div class="movies-list"></div>
     </section>
   </main>
+  <main class="trainer-page" hidden>
+    <header class="materials-header trainer-page-header">
+      <button class="trainer-back materials-back" type="button" aria-label="Вернуться назад"><img src="./assets main page/arrow-back.svg" alt=""></button>
+      <span class="secondary-header-title">Тренажёр сложных разговоров</span>
+      <button class="trainer-success-close" type="button" aria-label="Закрыть тренажёр" hidden>×</button>
+    </header>
+    <section class="section trainer-setup">
+      <h1 class="title secondary-page-title">Тренажёр сложных<br>разговоров</h1>
+      <p class="lead trainer-intro">Настройте колоду и обсудите сложные ситуации в спокойной обстановке</p>
+
+      <div class="trainer-setting">
+        <h2 class="subtitle">Кто вы?</h2>
+        <div class="trainer-chips" data-setting="role">
+          <button class="trainer-chip active" type="button" data-value="parent">Родитель</button>
+          <button class="trainer-chip" type="button" data-value="child">Ребёнок</button>
+        </div>
+        <p class="trainer-hint role-hint">Проверьте себя и подготовьтесь к разговору с ребёнком</p>
+      </div>
+
+      <div class="trainer-setting">
+        <h2 class="subtitle">Выберите колоду</h2>
+        <div class="trainer-chips trainer-chips--stacked" data-setting="deck">
+          <button class="trainer-chip active" type="button" data-value="parents">Для родителей</button>
+          <button class="trainer-chip" type="button" data-value="children">Для детей</button>
+          <button class="trainer-chip" type="button" data-value="mixed">Общая колода</button>
+        </div>
+        <p class="trainer-hint deck-hint">Вопросы о признаках травли, поддержке и действиях взрослых</p>
+      </div>
+
+      <div class="trainer-setting">
+        <h2 class="subtitle">Типы карточек</h2>
+        <div class="trainer-types">
+          <button class="trainer-type trainer-type--question" type="button" data-type-info="question">Вопрос <span>?</span></button>
+          <button class="trainer-type trainer-type--situation" type="button" data-type-info="situation">Ситуация <span>?</span></button>
+          <button class="trainer-type trainer-type--dialogue" type="button" data-type-info="dialogue">Диалог <span>?</span></button>
+        </div>
+      </div>
+
+      <div class="trainer-setting trainer-setting--row">
+        <div><h2 class="subtitle">Количество карт</h2><p class="trainer-hint">По умолчанию — 10</p></div>
+        <button class="trainer-count" type="button"><span>10</span><span>⌄</span></button>
+      </div>
+
+      <label class="trainer-shuffle"><input type="checkbox" checked><span class="trainer-toggle"></span><span><b>Перемешать колоду</b><small>Типы карточек будут чередоваться</small></span></label>
+      <button class="button button--dark trainer-start" type="button">Начать игру</button>
+    </section>
+
+    <section class="section trainer-game" hidden>
+      <div class="trainer-progress"><span class="trainer-progress-text">1 из 10</span><div><i></i></div></div>
+      <div class="game-card-shell">
+        <article class="game-card">
+          <div class="game-card__face game-card__front">
+            <span class="game-card__tag">Вопрос</span>
+            <h2 class="game-card__title"></h2>
+            <p class="game-card__prompt"></p>
+          </div>
+          <div class="game-card__face game-card__back">
+            <span class="game-card__tag">Ответ</span>
+            <h2 class="game-card__title">Как лучше поступить</h2>
+            <p class="game-card__answer"></p>
+          </div>
+        </article>
+      </div>
+      <button class="button button--dark game-action" type="button">Посмотреть ответ</button>
+    </section>
+
+    <section class="section trainer-success" hidden>
+      <span class="success-mark">✓</span>
+      <h1 class="title">Вы прошли колоду</h1>
+      <p class="lead">Круто, что вы разобрали сложные темы и нашли новые точки для разговора</p>
+      <div class="success-links">
+        <button type="button" data-success-link="materials"><b>Почитать полезные материалы</b><img src="./assets main page/arrow-right.svg" alt=""></button>
+        <button type="button" data-success-link="movies"><b>Посмотреть мультфильмы</b><img src="./assets main page/arrow-right.svg" alt=""></button>
+      </div>
+      <button class="button button--dark trainer-again" type="button">Собрать новую колоду</button>
+    </section>
+  </main>
+  <div class="exit-dialog" hidden>
+    <section role="alertdialog" aria-modal="true" aria-labelledby="exit-title">
+      <h2 class="subtitle" id="exit-title">Выйти из тренажёра?</h2>
+      <p>Прогресс текущей игры не сохранится.</p>
+      <button class="button button--dark exit-confirm" type="button">Выйти</button>
+      <button class="button button--muted exit-cancel" type="button">Продолжить игру</button>
+    </section>
+  </div>
   <div class="sheet-backdrop" hidden>
     <section class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="source-title">
       <button class="sheet-close" aria-label="Закрыть">×</button>

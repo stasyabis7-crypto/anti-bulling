@@ -87,6 +87,48 @@ const answerContent = [
   }
 ];
 
+const parentCards = [
+  ['Ребёнок стал просить оставить его дома. Это всегда признак травли?', 'Не всегда. Спокойно спросите, что изменилось, и обратите внимание на повторяемость: тревогу перед школой, нарушения сна, потерянные вещи и резкое снижение настроения.'],
+  ['Стоит ли сразу звонить родителям обидчика?', 'Сначала обеспечьте безопасность ребёнка и зафиксируйте факты. Самостоятельный конфликт взрослых может усилить травлю — лучше действовать через школу и согласованный план.'],
+  ['Что сказать ребёнку, когда он впервые рассказал о травле?', 'Поблагодарите за доверие, скажите, что верите ему и что он не виноват. Спросите, какой помощи он хочет прямо сейчас.'],
+  ['Нужно ли учить ребёнка давать сдачи?', 'Физический ответ может усилить опасность и сделать пострадавшего виноватым в глазах школы. Лучше тренировать уверенные фразы, выход из ситуации и обращение к взрослым.'],
+  ['Как отличить конфликт от травли?', 'В конфликте силы обычно равны и стороны могут остановиться. Травля повторяется, силы неравны, а одному из участников трудно защитить себя.'],
+  ['Можно ли обещать ребёнку никому не рассказывать?', 'Не обещайте полной тайны. Объясните, что будете обсуждать каждый следующий шаг и подключите только тех взрослых, которые нужны для безопасности.'],
+  ['Что делать со скриншотами и сообщениями?', 'Сохраните их вместе с датами и ссылками. Не распространяйте дальше: используйте материалы только для обращения в школу или к специалистам.'],
+  ['Как разговаривать со школой?', 'Опишите конкретные факты без ярлыков, подайте обращение письменно и попросите план действий, ответственных и дату повторной встречи.'],
+  ['Ребёнок просит не вмешиваться. Что делать?', 'Признайте его страх и обсудите безопасный вариант вмешательства. Если есть угроза здоровью, взрослые обязаны действовать, сохраняя ребёнку максимум контроля.'],
+  ['Как понять, что ситуация улучшилась?', 'Недостаточно одного разговора. Регулярно спрашивайте ребёнка о самочувствии, проверяйте прекращение эпизодов и выполнение договорённостей школой.'],
+  ['Что делать, если мой ребёнок оказался агрессором?', 'Остановите действия без унижения и ярлыков. Разберите последствия, договоритесь о восстановительных шагах и выясните, какая поддержка нужна самому ребёнку.'],
+  ['Нужно ли требовать публичных извинений?', 'Принуждение может повторно травмировать пострадавшего. Извинение должно быть добровольным, конкретным и сопровождаться реальным прекращением действий.'],
+  ['Когда нужен психолог?', 'Если тревога, агрессия, изоляция или нарушения сна сохраняются, мешают учёбе и обычной жизни, лучше обратиться к детскому психологу.'],
+  ['Как поддержать свидетеля травли?', 'Скажите, что сообщить взрослому — не ябедничество. Помогите выбрать безопасный способ поддержать пострадавшего, не вступая в опасное противостояние.'],
+  ['Что важнее всего после разговора?', 'Не оставлять ребёнка одного с проблемой: согласовать ближайший шаг, назвать взрослого для связи и вернуться к теме в оговорённое время.']
+].map(([title, answer]) => ({ audience: 'parents', type: 'question', title, prompt: 'Как бы вы ответили?', answer }));
+
+const childCards = [
+  ['Одноклассники создали чат без тебя и смеются, когда ты спрашиваешь о нём.', 'Скажи об этом взрослому, которому доверяешь, и сохрани сообщения. Исключение и насмешки могут быть частью травли, и справляться одному не нужно.'],
+  ['Тебя регулярно называют обидным прозвищем, хотя ты просил остановиться.', 'Спокойно скажи: «Мне это не нравится. Остановитесь», уйди к безопасным людям и расскажи взрослому о повторяющихся эпизодах.'],
+  ['Ты увидел, как у другого ребёнка отбирают вещи.', 'Не рискуй собой. Позови взрослого, запомни детали и после ситуации покажи ребёнку, что он не один.'],
+  ['В классе пересылают неприятную фотографию одноклассника.', 'Не пересылай и не ставь реакции. Сделай скриншот для доказательства, сообщи взрослому и поддержи человека, которого обсуждают.'],
+  ['Друг просит никому не говорить, что его толкают после уроков.', 'Скажи, что переживаешь за него и хочешь помочь. При угрозе безопасности важно вместе обратиться к надёжному взрослому.'],
+  ['Тебя провоцируют на драку перед другими.', 'Не доказывай смелость дракой. Отойди в безопасное место, позови взрослого и расскажи, кто и когда тебя провоцировал.'],
+  ['Учитель не заметил насмешки, а класс говорит, что это шутка.', 'Твои чувства важны. Расскажи учителю после урока или другому взрослому и объясни, что это повторяется и тебе неприятно.'],
+  ['Тебе угрожают, если ты расскажешь взрослым.', 'Угрозы — причина обратиться за помощью как можно скорее. Не оставайся один и сохрани доказательства, если это безопасно.'],
+  ['Ты случайно посмеялся вместе со всеми и теперь жалеешь.', 'Можно исправить ситуацию: не поддерживать насмешки дальше, извиниться без оправданий и предложить человеку поддержку.'],
+  ['Кто-то постоянно прячет твои вещи.', 'Запиши случаи, попроси взрослого помочь и не ищи вещи в одиночку там, где может быть опасно.'],
+  ['Тебя исключают из команд и совместных заданий.', 'Расскажи учителю конкретно, как часто это происходит. Попроси помочь организовать безопасное участие в общей работе.'],
+  ['Друг стал молчаливым и избегает школы.', 'Спроси без давления, всё ли в порядке, предложи пойти к взрослому вместе и не обещай хранить опасные ситуации в тайне.'],
+  ['Обидчик написал, что всё было просто шуткой.', 'Шутка перестаёт быть шуткой, когда человеку больно и просьбу остановиться игнорируют. Сохрани сообщение и обратись к взрослому.'],
+  ['Ты боишься, что после жалобы станет хуже.', 'Расскажи о страхе взрослому и попроси заранее составить план безопасности: к кому идти, где находиться на переменах и как сообщать о новых случаях.'],
+  ['Взрослый сказал: «Не обращай внимания».', 'Попробуй обратиться к другому взрослому и сказать прямо: «Это повторяется, мне небезопасно, и мне нужна помощь».']
+].map(([title, answer]) => ({ audience: 'children', type: 'situation', title, prompt: 'Что ты сделаешь?', answer }));
+
+const dialogueCards = [
+  'Что помогает тебе чувствовать себя в безопасности в школе?', 'По каким признакам мы понимаем, что шутка стала обидной?', 'К кому из взрослых тебе проще всего обратиться и почему?', 'Как я могу поддержать тебя, не принимая решения за тебя?', 'Что можно сказать человеку, которого обижают?', 'Какие правила общения должны быть в семейном чате?', 'Что мешает детям рассказывать взрослым о травле?', 'Как выглядит хорошее извинение?', 'Что для тебя означает уважать чужие границы?', 'Как поступить, если друг просит хранить опасный секрет?', 'Какие слова взрослого действительно успокаивают?', 'Что можно сделать свидетелю, не подвергая себя риску?', 'Как понять, что помощь взрослых сработала?', 'Что мы можем заранее придумать на случай сложной ситуации?', 'Как поддерживать друг друга после неприятного дня?'
+].map((title) => ({ audience: 'mixed', type: 'dialogue', title, prompt: 'По очереди поделитесь своим мнением.', answer: null }));
+
+const trainerCards = [...parentCards, ...childCards, ...dialogueCards];
+
 const heroSlides = [...document.querySelectorAll('.hero-slide')];
 const heroDots = [...document.querySelectorAll('.pager button')];
 const heroPager = document.querySelector('.pager');
@@ -215,7 +257,17 @@ const materialsPage = document.querySelector('.materials-page');
 const materialsList = document.querySelector('.materials-list');
 const moviesPage = document.querySelector('.movies-page');
 const moviesList = document.querySelector('.movies-list');
+const trainerPage = document.querySelector('.trainer-page');
 let materialsReturnSelector = '.situations';
+let moviesReturnSelector = '.cartoons';
+
+const updateSecondaryHeaders = () => {
+  document.querySelectorAll('.materials-header').forEach((header) => {
+    const pageTitle = header.parentElement.querySelector('.secondary-page-title');
+    if (!pageTitle || header.parentElement.hidden) return;
+    header.classList.toggle('show-title', pageTitle.getBoundingClientRect().bottom <= header.getBoundingClientRect().bottom);
+  });
+};
 
 const renderMaterials = (audience) => {
   const situationCards = storyContent[audience].map((story, index) => `
@@ -246,6 +298,7 @@ const renderMaterials = (audience) => {
 function showMainPage(restorePosition = true) {
   materialsPage.hidden = true;
   moviesPage.hidden = true;
+  trainerPage.hidden = true;
   mainPage.hidden = false;
   if (restorePosition) document.querySelector(materialsReturnSelector).scrollIntoView({ block: 'start' });
 }
@@ -254,6 +307,7 @@ const openMaterialsPage = (audience, returnSelector) => {
   materialsReturnSelector = returnSelector;
   mainPage.hidden = true;
   moviesPage.hidden = true;
+  trainerPage.hidden = true;
   materialsPage.hidden = false;
   renderMaterials(audience);
   document.querySelectorAll('.materials-tabs .tab').forEach((tab) => {
@@ -262,24 +316,220 @@ const openMaterialsPage = (audience, returnSelector) => {
     tab.setAttribute('aria-selected', String(selected));
   });
   window.scrollTo({ top: 0 });
+  window.requestAnimationFrame(updateSecondaryHeaders);
 };
 
 document.querySelector('.situations-all').addEventListener('click', () => openMaterialsPage(currentAudience, '.situations'));
 document.querySelector('.answers-more').addEventListener('click', () => openMaterialsPage('adults', '.answers'));
 document.querySelector('.hero-materials-button').addEventListener('click', () => openMaterialsPage('children', '.hero'));
 
-document.querySelector('.cartoons-all').addEventListener('click', () => {
+const openMoviesPage = (returnSelector) => {
+  moviesReturnSelector = returnSelector;
   moviesList.replaceChildren(...[...document.querySelectorAll('.scroller .movie')].map((movie) => movie.cloneNode(true)));
   mainPage.hidden = true;
   materialsPage.hidden = true;
+  trainerPage.hidden = true;
   moviesPage.hidden = false;
   window.scrollTo({ top: 0 });
-});
+  window.requestAnimationFrame(updateSecondaryHeaders);
+};
+
+document.querySelector('.cartoons-all').addEventListener('click', () => openMoviesPage('.cartoons'));
+document.querySelector('.hero-movies-button').addEventListener('click', () => openMoviesPage('.hero'));
 
 document.querySelector('.movies-back').addEventListener('click', () => {
   showMainPage(false);
-  document.querySelector('.cartoons').scrollIntoView({ block: 'start' });
+  document.querySelector(moviesReturnSelector).scrollIntoView({ block: 'start' });
 });
+
+const trainerSetup = document.querySelector('.trainer-setup');
+const trainerGame = document.querySelector('.trainer-game');
+const trainerSuccess = document.querySelector('.trainer-success');
+const exitDialog = document.querySelector('.exit-dialog');
+const trainerState = { role: 'parent', deck: 'parents', count: 10, cards: [], index: 0, flipped: false, returnSelector: '.trainer' };
+
+const deckHints = {
+  parents: 'Вопросы о признаках травли, поддержке и действиях взрослых',
+  children: 'Гипотетические ситуации: как защитить себя и поддержать другого',
+  mixed: 'Вопросы, ситуации и диалоги для совместного разговора'
+};
+
+const setChip = (group, value) => {
+  group.querySelectorAll('.trainer-chip').forEach((chip) => chip.classList.toggle('active', chip.dataset.value === value));
+};
+
+document.querySelectorAll('.trainer-chips').forEach((group) => {
+  group.addEventListener('click', (event) => {
+    const chip = event.target.closest('.trainer-chip');
+    if (!chip) return;
+    setChip(group, chip.dataset.value);
+    if (group.dataset.setting === 'role') {
+      trainerState.role = chip.dataset.value;
+      const isParent = trainerState.role === 'parent';
+      document.querySelector('.role-hint').textContent = isParent ? 'Проверьте себя и подготовьтесь к разговору с ребёнком' : 'Разыграйте ситуации и потренируйтесь просить о помощи';
+      trainerState.deck = isParent ? 'parents' : 'children';
+      setChip(document.querySelector('[data-setting="deck"]'), trainerState.deck);
+      document.querySelector('.deck-hint').textContent = deckHints[trainerState.deck];
+    } else {
+      trainerState.deck = chip.dataset.value;
+      document.querySelector('.deck-hint').textContent = deckHints[trainerState.deck];
+    }
+  });
+});
+
+document.querySelectorAll('[data-type-info]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const info = {
+      question: ['Вопрос', 'Проверьте знания о травле и выберите безопасный способ поддержки. После ответа карточка покажет рекомендацию психолога.'],
+      situation: ['Ситуация', 'Представьте конкретный случай и решите, как поступить. Затем сравните свой вариант с безопасной стратегией.'],
+      dialogue: ['Диалог', 'Тема без единственно правильного ответа. Обсудите её по очереди и постарайтесь услышать друг друга.']
+    }[button.dataset.typeInfo];
+    openSheet(info[0], `<p>${info[1]}</p>`);
+  });
+});
+
+const setTrainerCount = (value) => {
+  trainerState.count = Math.max(1, Math.min(45, Number(value) || 10));
+  document.querySelector('.trainer-count>span').textContent = trainerState.count;
+};
+
+document.querySelector('.trainer-count').addEventListener('click', () => {
+  openSheet('Количество карт', `
+    <div class="count-options">
+      ${[5, 10, 15, 20].map((value) => `<label><input type="radio" name="card-count" value="${value}" ${trainerState.count === value ? 'checked' : ''}><span>${value} карт</span></label>`).join('')}
+      <label class="custom-count"><input type="radio" name="card-count" value="custom"><span>Своё количество</span></label>
+      <div class="custom-count-row"><input type="number" min="1" max="45" value="${trainerState.count}" aria-label="Своё количество карт"><button class="button button--dark apply-count" type="button">Готово</button></div>
+    </div>
+  `);
+});
+
+sheetContent.addEventListener('change', (event) => {
+  if (event.target.name !== 'card-count' || event.target.value === 'custom') return;
+  setTrainerCount(event.target.value);
+  closeSheet();
+});
+sheetContent.addEventListener('click', (event) => {
+  if (!event.target.closest('.apply-count')) return;
+  setTrainerCount(sheetContent.querySelector('.custom-count-row input').value);
+  closeSheet();
+});
+
+const shuffled = (items) => {
+  const copy = [...items];
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [copy[index], copy[randomIndex]] = [copy[randomIndex], copy[index]];
+  }
+  return copy;
+};
+
+const buildDeck = () => {
+  let pool = trainerState.deck === 'parents' ? [...parentCards, ...dialogueCards] : trainerState.deck === 'children' ? [...childCards, ...dialogueCards] : [...trainerCards];
+  if (document.querySelector('.trainer-shuffle input').checked) pool = shuffled(pool);
+  trainerState.cards = pool.slice(0, Math.min(trainerState.count, pool.length));
+  trainerState.index = 0;
+  trainerState.flipped = false;
+};
+
+const typeLabels = { question: 'Вопрос', situation: 'Ситуация', dialogue: 'Диалог' };
+const renderGameCard = () => {
+  const card = trainerState.cards[trainerState.index];
+  const gameCard = document.querySelector('.game-card');
+  gameCard.className = `game-card game-card--${card.type}`;
+  document.querySelector('.game-card__front .game-card__tag').textContent = typeLabels[card.type];
+  document.querySelector('.game-card__front .game-card__title').textContent = card.title;
+  document.querySelector('.game-card__prompt').textContent = card.prompt;
+  document.querySelector('.game-card__answer').textContent = card.answer || '';
+  document.querySelector('.trainer-progress-text').textContent = `${trainerState.index + 1} из ${trainerState.cards.length}`;
+  document.querySelector('.trainer-progress i').style.width = `${((trainerState.index + 1) / trainerState.cards.length) * 100}%`;
+  document.querySelector('.game-action').textContent = card.type === 'dialogue' ? 'Обсудили — дальше' : 'Посмотреть ответ';
+  document.querySelector('.trainer-success-close').hidden = trainerState.index === 0;
+  trainerState.flipped = false;
+};
+
+const showTrainerState = (state) => {
+  trainerSetup.hidden = state !== 'setup';
+  trainerGame.hidden = state !== 'game';
+  trainerSuccess.hidden = state !== 'success';
+  document.querySelector('.trainer-success-close').hidden = state !== 'success';
+  window.scrollTo({ top: 0 });
+  window.requestAnimationFrame(updateSecondaryHeaders);
+};
+
+const openTrainerPage = (returnSelector) => {
+  trainerState.returnSelector = returnSelector;
+  mainPage.hidden = true;
+  materialsPage.hidden = true;
+  moviesPage.hidden = true;
+  trainerPage.hidden = false;
+  showTrainerState('setup');
+};
+
+document.querySelector('.trainer-start').addEventListener('click', () => {
+  buildDeck();
+  showTrainerState('game');
+  renderGameCard();
+});
+
+document.querySelector('.game-action').addEventListener('click', () => {
+  const card = trainerState.cards[trainerState.index];
+  const gameCard = document.querySelector('.game-card');
+  if (card.type !== 'dialogue' && !trainerState.flipped) {
+    trainerState.flipped = true;
+    gameCard.classList.add('is-flipped');
+    document.querySelector('.game-action').textContent = 'Следующая карточка';
+    return;
+  }
+  if (trainerState.index < trainerState.cards.length - 1) {
+    trainerState.index += 1;
+    renderGameCard();
+  } else {
+    showTrainerState('success');
+  }
+});
+
+document.querySelector('.trainer-back').addEventListener('click', () => {
+  if (!trainerGame.hidden) {
+    if (trainerState.index > 0) {
+      trainerState.index -= 1;
+      renderGameCard();
+    } else {
+      showTrainerState('setup');
+    }
+  } else {
+    showMainPage(false);
+    document.querySelector(trainerState.returnSelector).scrollIntoView({ block: 'start' });
+  }
+});
+
+document.querySelector('.exit-cancel').addEventListener('click', () => {
+  exitDialog.hidden = true;
+  document.body.classList.remove('sheet-open');
+});
+document.querySelector('.exit-confirm').addEventListener('click', () => {
+  exitDialog.hidden = true;
+  document.body.classList.remove('sheet-open');
+  showMainPage(false);
+  document.querySelector(trainerState.returnSelector).scrollIntoView({ block: 'start' });
+});
+
+document.querySelector('.trainer-again').addEventListener('click', () => showTrainerState('setup'));
+document.querySelector('.trainer-success-close').addEventListener('click', () => {
+  if (!trainerGame.hidden) {
+    exitDialog.hidden = false;
+    document.body.classList.add('sheet-open');
+  } else {
+    showMainPage(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+document.querySelectorAll('.trainer-button,.hero-trainer-button').forEach((button) => button.addEventListener('click', () => openTrainerPage(button.classList.contains('hero-trainer-button') ? '.hero' : '.trainer')));
+
+document.querySelector('[data-success-link="materials"]').addEventListener('click', () => openMaterialsPage('adults', '.trainer'));
+document.querySelector('[data-success-link="movies"]').addEventListener('click', () => openMoviesPage('.trainer'));
+
+window.addEventListener('scroll', updateSecondaryHeaders, { passive: true });
+window.addEventListener('resize', updateSecondaryHeaders);
 
 document.querySelector('.materials-back').addEventListener('click', () => showMainPage());
 
