@@ -618,3 +618,45 @@ const updateMovieCounter = () => {
 };
 scroller.addEventListener('scroll', updateMovieCounter, { passive: true });
 window.addEventListener('resize', updateMovieCounter);
+
+const foundationData = {
+  shalash: {
+    name: 'Шалаш', logo: './assets main page/shalash.png', photo: './assets main page/help-center.png', site: 'https://shalash.academy',
+    description: 'Благотворительный фонд «Шалаш» с 2019 года помогает детям и подросткам с трудным поведением — через бесплатные курсы для детей и системную работу со школами. Фонд разрабатывает и внедряет педагогические методики работы с проблемами поведения, а также проводит групповые занятия по развитию социальных навыков для детей 7–17 лет. Команда фонда помогает предотвращать негативные последствия трудного поведения, развивая у детей критическое мышление, коммуникативные способности и навыки сотрудничества. С 2025 года «Шалаш» работает с государственными школами Калужской области в рамках программы поддержки педагогических коллективов в работе с трудным поведением.',
+    legal: 'Благотворительный фонд «Шалаш»', inn: '9721081683', ogrn: '1197700008000',
+    good: 'В феврале фонд «Шалаш» поделился новостями о бесплатной онлайн-конференции для родителей, поддержке детей и подростков с трудным поведением, поиске редактора коммуникаций и создании обложек для телефона. Фонд также опубликовал отчет за первую половину 2025 года и продолжил выкладывать зимние открытки. Благотворительный фонд «Шалаш» продолжает свою миссию, помогая детям 7–17 лет справляться с трудностями поведения через современные методики и системную работу с государственными школами, чтобы каждый подросток мог раскрыть свой потенциал.'
+  },
+  upsala: {
+    name: 'Упсала-Цирк', logo: './assets main page/upsala.png', photo: './assets main page/mult 1.png', site: 'https://upsalacircus.ru',
+    description: '«Упсала-Цирк» — независимый культурный и социальный проект из Санкт-Петербурга. Артисты здесь — подростки из групп социального риска и с особыми потребностями, все они через цирк могут реализовать таланты, изменить свой жизненный сценарий и стать успешными. С сентября по июнь около 120 подростков ежедневно занимаются в цирке бесплатно, за 25 лет работы создано более 30 постановок, включая 6 инклюзивных, которые посмотрели больше 50 000 зрителей. Спектакли цирка ежегодно участвуют в фестивалях и получают награды. Каждый спектакль меняет не только мир артистов, но и мир, в котором нам всем предстоит жить. Упсала-Цирк сам ищет средства на свои пятилетние программы для подростков, поэтому во многом работает благодаря частным пожертвованиям.',
+    legal: 'Автономная некоммерческая организация социально-культурных услуг «Упсала-Цирк»', inn: '7811154195', ogrn: '1087800004434',
+    good: 'В течение февраля фонд «Упсала-Цирк» провел ряд мероприятий и собрал пожертвования для поддержки проектов. Результатом сотрудничества с арт-лабораторией и дизайн мастерской «ЭТО» стала открытка, которая стала лотом в сборе на спектакль «Цирк Фибоначчи». Проект предусматривает участие людей с ментальными особенностями и направлен на создание инклюзивной среды. Фонд также запустил рубрику #здесьбылцирк, где артисты спектакля прячут билеты в различных районах города. «Упсала-Цирк» продолжает свою миссию, ежедневно доказывая, что цирковое искусство способно менять жизненные сценарии подростков из групп социального риска и с особыми потребностями.'
+  }
+};
+const foundationPages = [...document.querySelectorAll('.app-subpage')];
+const foundationPage = document.querySelector('.foundation-page');
+const donationPage = document.querySelector('.donation-page');
+const pickerPage = document.querySelector('.foundation-picker');
+const pageHistory = [];
+let selectedFoundation = 'shalash';
+let pendingFoundation = 'shalash';
+let activeFoundation = 'shalash';
+let lastPickerClick = null;
+const hideAllAppPages = () => { mainPage.hidden = true; materialsPage.hidden = true; moviesPage.hidden = true; trainerPage.hidden = true; foundationPages.forEach((page) => { page.hidden = true; }); };
+const showAppPage = (page, push = true) => { if (push) pageHistory.push([...document.querySelectorAll('main')].find((item) => !item.hidden) || mainPage); hideAllAppPages(); page.hidden = false; window.scrollTo(0, 0); };
+const goBackApp = () => { const previous = pageHistory.pop() || mainPage; hideAllAppPages(); previous.hidden = false; if (previous === mainPage) document.querySelector('.foundations').scrollIntoView({ block: 'start' }); else window.scrollTo(0, 0); };
+const fundCardMarkup = (key, arrow = true) => { const fund = key === '1221' ? { name: 'Фонд 1221', logo: './assets main page/1221.png' } : foundationData[key]; const text = key === 'shalash' ? 'Помогает детям и подросткам с трудным поведением' : key === 'upsala' ? 'Социальный цирк для подростков' : 'Не участвует в Знаке добра'; return `<img src="${fund.logo}" alt=""><span><b>${fund.name}</b><small>${text}</small></span><i>${arrow ? '›' : ''}</i>`; };
+const renderFoundation = (key, tab = 'about') => { activeFoundation = key; const fund = foundationData[key]; foundationPage.querySelector('.app-navbar b').textContent = tab === 'about' ? 'О фонде' : 'Добрые дела фонда'; document.querySelector('.foundation-detail').innerHTML = `<div class="fund-verified"><img src="./assets main page/Verify.svg" alt="">Проверенный фонд</div><h1>${fund.name}</h1><div class="fund-tabs"><button class="${tab === 'about' ? 'active' : ''}" data-fund-tab="about">О фонде</button><button class="${tab === 'good' ? 'active' : ''}" data-fund-tab="good">Добрые дела фонда</button></div>${tab === 'about' ? `<div class="fund-hero"><img src="${fund.photo}" alt=""><span class="fund-hero-logo"><img src="${fund.logo}" alt=""></span></div><div class="fund-copy"><p>${fund.description}</p><p><b>Сайт фонда:</b> <a href="${fund.site}" target="_blank" rel="noopener noreferrer">${fund.site.replace('https://','')}</a></p><h2>Юридическая информация</h2><div class="fund-legal"><p><span>Полное юридическое название фонда:</span> ${fund.legal}</p><p><span>ИНН:</span> ${fund.inn}</p><p><span>ОГРН:</span> ${fund.ogrn}</p></div></div>` : `<div class="good-filters"><div class="good-filter"><b>Год</b><div>2026</div></div><div class="good-filter"><b>Месяц</b><div>Февраль</div></div></div><div class="fund-copy"><p>${fund.good}</p></div>`}`; };
+const openFoundation = (key) => { renderFoundation(key); showAppPage(foundationPage); };
+const renderDonationFund = () => { document.querySelector('.donation-fund-card').innerHTML = fundCardMarkup(selectedFoundation); };
+const openDonation = (key = selectedFoundation) => { selectedFoundation = key; renderDonationFund(); showAppPage(donationPage); };
+document.querySelectorAll('[data-foundation]').forEach((card) => card.addEventListener('click', () => openFoundation(card.dataset.foundation)));
+document.querySelector('.foundations-help').addEventListener('click', () => openDonation(Math.random() < .5 ? 'shalash' : 'upsala'));
+document.querySelector('.foundation-detail').addEventListener('click', (event) => { const tab = event.target.closest('[data-fund-tab]'); if (tab) renderFoundation(activeFoundation, tab.dataset.fundTab); });
+document.querySelector('.donation-open').addEventListener('click', () => openDonation(activeFoundation));
+document.querySelector('.donation-fund-card').addEventListener('click', () => openFoundation(selectedFoundation));
+document.querySelector('.change-foundation').addEventListener('click', () => { pendingFoundation = selectedFoundation; lastPickerClick = null; document.querySelector('.picker-list').innerHTML = ['shalash','upsala','1221'].map((key) => `<button class="fund-mini-card ${key === pendingFoundation ? 'selected' : ''} ${key === '1221' ? 'disabled' : ''}" type="button" data-pick-fund="${key}" ${key === '1221' ? 'disabled' : ''}>${fundCardMarkup(key)}</button>`).join(''); showAppPage(pickerPage); });
+document.querySelector('.picker-list').addEventListener('click', (event) => { const card = event.target.closest('[data-pick-fund]:not([disabled])'); if (!card) return; if (lastPickerClick === card.dataset.pickFund) { openFoundation(card.dataset.pickFund); return; } document.querySelectorAll('[data-pick-fund]').forEach((item) => item.classList.remove('selected')); card.classList.add('selected'); pendingFoundation = card.dataset.pickFund; lastPickerClick = card.dataset.pickFund; });
+document.querySelector('.picker-confirm').addEventListener('click', () => { selectedFoundation = pendingFoundation; renderDonationFund(); goBackApp(); });
+document.querySelectorAll('.app-back').forEach((button) => button.addEventListener('click', goBackApp));
+document.querySelectorAll('.donation-period button,.donation-amounts button').forEach((button) => button.addEventListener('click', () => { button.parentElement.querySelectorAll('button').forEach((item) => item.classList.remove('active')); button.classList.add('active'); }));
