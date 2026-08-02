@@ -443,7 +443,8 @@ const audienceLabels = { parents: 'для родителей', children: 'для
 const renderGameCard = () => {
   const card = trainerState.cards[trainerState.index];
   const gameCard = document.querySelector('.game-card');
-  gameCard.className = `game-card game-card--${card.type}`;
+  const isDenseCard = Math.max(card.title.length, (card.answer || '').length) > 165;
+  gameCard.className = `game-card game-card--${card.type}${isDenseCard ? ' game-card--dense' : ''}`;
   document.querySelector('.game-card__front .game-card__tag').textContent = `${typeLabels[card.type]} ${audienceLabels[card.audience]}`;
   document.querySelector('.game-card__front .game-card__title').textContent = card.title;
   document.querySelector('.game-card__prompt').textContent = card.prompt;
