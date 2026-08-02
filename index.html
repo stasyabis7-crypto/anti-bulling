@@ -184,28 +184,25 @@
         <p class="trainer-hint role-hint">Проверьте себя и подготовьтесь к разговору с ребёнком</p>
       </div>
 
-      <div class="trainer-setting">
-        <h2 class="subtitle">Выберите колоду</h2>
-        <div class="trainer-chips trainer-chips--stacked" data-setting="deck">
-          <button class="trainer-chip active" type="button" data-value="parents">Для родителей</button>
-          <button class="trainer-chip" type="button" data-value="children">Для детей</button>
-          <button class="trainer-chip" type="button" data-value="mixed">Общая колода</button>
-        </div>
-        <p class="trainer-hint deck-hint">Вопросы о признаках травли, поддержке и действиях взрослых</p>
-      </div>
+      <label class="trainer-shuffle trainer-common">
+        <input type="checkbox">
+        <span class="trainer-toggle"></span>
+        <span><b>Общая колода</b><small>Добавить карточки и для родителей, и для детей</small></span>
+      </label>
 
       <div class="trainer-setting">
         <h2 class="subtitle">Типы карточек</h2>
         <div class="trainer-types">
-          <button class="trainer-type trainer-type--question" type="button" data-type-info="question">Вопрос <span>?</span></button>
-          <button class="trainer-type trainer-type--situation" type="button" data-type-info="situation">Ситуация <span>?</span></button>
-          <button class="trainer-type trainer-type--dialogue" type="button" data-type-info="dialogue">Диалог <span>?</span></button>
+          <button class="trainer-type trainer-type--question active" type="button" data-type-info="question">Вопрос <span>?</span></button>
+          <button class="trainer-type trainer-type--situation active" type="button" data-type-info="situation">Ситуация <span>?</span></button>
+          <button class="trainer-type trainer-type--dialogue active" type="button" data-type-info="dialogue">Диалог <span>?</span></button>
         </div>
+        <p class="trainer-hint">Нажмите на тип, чтобы добавить или убрать его из колоды</p>
       </div>
 
       <div class="trainer-setting trainer-setting--row">
         <div><h2 class="subtitle">Количество карт</h2><p class="trainer-hint">По умолчанию — 10</p></div>
-        <button class="trainer-count" type="button"><span>10</span><span>⌄</span></button>
+        <button class="trainer-count" type="button"><span>10</span><img class="trainer-count-arrow" src="./assets main page/arrow-right.svg" alt=""></button>
       </div>
 
       <label class="trainer-shuffle"><input type="checkbox" checked><span class="trainer-toggle"></span><span><b>Перемешать колоду</b><small>Типы карточек будут чередоваться</small></span></label>
@@ -220,21 +217,23 @@
             <span class="game-card__tag">Вопрос</span>
             <h2 class="game-card__title"></h2>
             <p class="game-card__prompt"></p>
+            <button class="button button--muted game-flip game-flip--answer" type="button">Посмотреть ответ</button>
           </div>
           <div class="game-card__face game-card__back">
             <span class="game-card__tag">Ответ</span>
             <h2 class="game-card__title">Как лучше поступить</h2>
             <p class="game-card__answer"></p>
+            <button class="button button--muted game-flip game-flip--question" type="button">Посмотреть вопрос</button>
           </div>
         </article>
       </div>
-      <button class="button button--dark game-action" type="button">Посмотреть ответ</button>
+      <button class="button button--dark game-action" type="button">Дальше</button>
     </section>
 
     <section class="section trainer-success" hidden>
       <span class="success-mark">✓</span>
       <h1 class="title">Вы прошли колоду</h1>
-      <p class="lead">Круто, что вы разобрали сложные темы и нашли новые точки для разговора</p>
+      <p class="lead">Вы обсудили сложные темы и нашли новые точки для разговора</p>
       <div class="success-links">
         <button type="button" data-success-link="materials"><b>Почитать полезные материалы</b><img src="./assets main page/arrow-right.svg" alt=""></button>
         <button type="button" data-success-link="movies"><b>Посмотреть мультфильмы</b><img src="./assets main page/arrow-right.svg" alt=""></button>

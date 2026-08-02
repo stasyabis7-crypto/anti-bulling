@@ -346,13 +346,7 @@ const trainerSetup = document.querySelector('.trainer-setup');
 const trainerGame = document.querySelector('.trainer-game');
 const trainerSuccess = document.querySelector('.trainer-success');
 const exitDialog = document.querySelector('.exit-dialog');
-const trainerState = { role: 'parent', deck: 'parents', count: 10, cards: [], index: 0, flipped: false, returnSelector: '.trainer' };
-
-const deckHints = {
-  parents: 'Вопросы о признаках травли, поддержке и действиях взрослых',
-  children: 'Гипотетические ситуации: как защитить себя и поддержать другого',
-  mixed: 'Вопросы, ситуации и диалоги для совместного разговора'
-};
+const trainerState = { role: 'parent', count: 10, cards: [], index: 0, flipped: false, returnSelector: '.trainer' };
 
 const setChip = (group, value) => {
   group.querySelectorAll('.trainer-chip').forEach((chip) => chip.classList.toggle('active', chip.dataset.value === value));
@@ -367,18 +361,18 @@ document.querySelectorAll('.trainer-chips').forEach((group) => {
       trainerState.role = chip.dataset.value;
       const isParent = trainerState.role === 'parent';
       document.querySelector('.role-hint').textContent = isParent ? 'Проверьте себя и подготовьтесь к разговору с ребёнком' : 'Разыграйте ситуации и потренируйтесь просить о помощи';
-      trainerState.deck = isParent ? 'parents' : 'children';
-      setChip(document.querySelector('[data-setting="deck"]'), trainerState.deck);
-      document.querySelector('.deck-hint').textContent = deckHints[trainerState.deck];
-    } else {
-      trainerState.deck = chip.dataset.value;
-      document.querySelector('.deck-hint').textContent = deckHints[trainerState.deck];
     }
   });
 });
 
 document.querySelectorAll('[data-type-info]').forEach((button) => {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', (event) => {
+    if (!event.target.closest('span')) {
+      const activeTypes = document.querySelectorAll('.trainer-type.active');
+      if (button.classList.contains('active') && activeTypes.length === 1) return;
+      button.classList.toggle('active');
+      return;
+    }
     const info = {
       question: ['Вопрос', 'Проверьте знания о травле и выберите безопасный способ поддержки. После ответа карточка покажет рекомендацию психолога.'],
       situation: ['Ситуация', 'Представьте конкретный случай и решите, как поступить. Затем сравните свой вариант с безопасной стратегией.'],
@@ -408,6 +402,11 @@ sheetContent.addEventListener('change', (event) => {
   setTrainerCount(event.target.value);
   closeSheet();
 });
+sheetContent.addEventListener('input', (event) => {
+  if (!event.target.closest('.custom-count-row')) return;
+  const customOption = sheetContent.querySelector('input[name="card-count"][value="custom"]');
+  if (customOption) customOption.checked = true;
+});
 sheetContent.addEventListener('click', (event) => {
   if (!event.target.closest('.apply-count')) return;
   setTrainerCount(sheetContent.querySelector('.custom-count-row input').value);
@@ -424,25 +423,35 @@ const shuffled = (items) => {
 };
 
 const buildDeck = () => {
-  let pool = trainerState.deck === 'parents' ? [...parentCards, ...dialogueCards] : trainerState.deck === 'children' ? [...childCards, ...dialogueCards] : [...trainerCards];
+  const useCommonDeck = document.querySelector('.trainer-common input').checked;
+  let pool = useCommonDeck ? [...trainerCards] : trainerState.role === 'parent' ? [...parentCards, ...dialogueCards] : [...childCards, ...dialogueCards];
+  const selectedTypes = [...document.querySelectorAll('.trainer-type.active')].map((button) => button.dataset.typeInfo);
+  pool = pool.filter((card) => selectedTypes.includes(card.type));
+  if (!pool.length) {
+    openSheet('Нет подходящих карточек', 'В выбранной колоде нет карточек этого типа. Выберите другой тип или включите общую колоду.');
+    return false;
+  }
   if (document.querySelector('.trainer-shuffle input').checked) pool = shuffled(pool);
   trainerState.cards = pool.slice(0, Math.min(trainerState.count, pool.length));
   trainerState.index = 0;
   trainerState.flipped = false;
+  return true;
 };
 
 const typeLabels = { question: 'Вопрос', situation: 'Ситуация', dialogue: 'Диалог' };
+const audienceLabels = { parents: 'для родителей', children: 'для ребёнка', mixed: 'для всех' };
 const renderGameCard = () => {
   const card = trainerState.cards[trainerState.index];
   const gameCard = document.querySelector('.game-card');
   gameCard.className = `game-card game-card--${card.type}`;
-  document.querySelector('.game-card__front .game-card__tag').textContent = typeLabels[card.type];
+  document.querySelector('.game-card__front .game-card__tag').textContent = `${typeLabels[card.type]} ${audienceLabels[card.audience]}`;
   document.querySelector('.game-card__front .game-card__title').textContent = card.title;
   document.querySelector('.game-card__prompt').textContent = card.prompt;
   document.querySelector('.game-card__answer').textContent = card.answer || '';
   document.querySelector('.trainer-progress-text').textContent = `${trainerState.index + 1} из ${trainerState.cards.length}`;
   document.querySelector('.trainer-progress i').style.width = `${((trainerState.index + 1) / trainerState.cards.length) * 100}%`;
-  document.querySelector('.game-action').textContent = card.type === 'dialogue' ? 'Обсудили — дальше' : 'Посмотреть ответ';
+  document.querySelectorAll('.game-flip').forEach((button) => { button.hidden = card.type === 'dialogue'; });
+  document.querySelector('.game-action').textContent = trainerState.index === trainerState.cards.length - 1 ? 'Завершить' : 'Дальше';
   document.querySelector('.trainer-success-close').hidden = trainerState.index === 0;
   trainerState.flipped = false;
 };
@@ -466,26 +475,27 @@ const openTrainerPage = (returnSelector) => {
 };
 
 document.querySelector('.trainer-start').addEventListener('click', () => {
-  buildDeck();
+  if (!buildDeck()) return;
   showTrainerState('game');
   renderGameCard();
 });
 
 document.querySelector('.game-action').addEventListener('click', () => {
-  const card = trainerState.cards[trainerState.index];
-  const gameCard = document.querySelector('.game-card');
-  if (card.type !== 'dialogue' && !trainerState.flipped) {
-    trainerState.flipped = true;
-    gameCard.classList.add('is-flipped');
-    document.querySelector('.game-action').textContent = 'Следующая карточка';
-    return;
-  }
   if (trainerState.index < trainerState.cards.length - 1) {
     trainerState.index += 1;
     renderGameCard();
   } else {
     showTrainerState('success');
   }
+});
+
+document.querySelector('.game-flip--answer').addEventListener('click', () => {
+  trainerState.flipped = true;
+  document.querySelector('.game-card').classList.add('is-flipped');
+});
+document.querySelector('.game-flip--question').addEventListener('click', () => {
+  trainerState.flipped = false;
+  document.querySelector('.game-card').classList.remove('is-flipped');
 });
 
 document.querySelector('.trainer-back').addEventListener('click', () => {
