@@ -57,6 +57,36 @@ const storyContent = {
   ]
 };
 
+const answerContent = [
+  {
+    title: 'Что делать, если моего ребёнка травят?',
+    image: './assets main page/answer-question.png',
+    article: [
+      'Сначала дайте ребёнку понять, что верите ему и не считаете произошедшее его виной. Выслушайте без допроса и поблагодарите за доверие: рассказать о травле бывает очень трудно.',
+      'Запишите конкретные эпизоды, даты и имена участников, сохраните переписку и скриншоты. Обратитесь к классному руководителю и администрации школы письменно, попросив обозначить меры безопасности и сроки обратной связи.',
+      'Не устраивайте самостоятельную встречу с обидчиком и не требуйте от ребёнка «дать сдачи». Важно регулярно проверять, прекратилась ли травля, и при необходимости подключить школьного или независимого психолога.'
+    ]
+  },
+  {
+    title: 'Как поддержать близкого?',
+    image: './assets main page/answer-support.png',
+    article: [
+      'Поддержка начинается не с советов, а с внимательного разговора. Скажите: «Я рядом», «Я тебе верю» и «Ты не виноват». Дайте человеку самому выбрать, сколько он готов рассказать сейчас.',
+      'Спросите, какая помощь нужна: просто выслушать, пойти вместе к взрослому, сохранить доказательства или найти специалиста. Не распространяйте подробности без согласия человека, если его безопасности ничто не угрожает.',
+      'Оставайтесь на связи и возвращайтесь к разговору позже. Если есть угроза здоровью, жизни или сильное эмоциональное ухудшение, помощь взрослого или специалиста нужна как можно скорее.'
+    ]
+  },
+  {
+    title: 'Как научить ребёнка защищать границы?',
+    image: './assets main page/answer-boundaries.png',
+    article: [
+      'Объясните ребёнку, что личные границы — это право не соглашаться на неприятные слова, прикосновения и действия. Его «нет» важно, даже если другой человек называет происходящее шуткой.',
+      'Потренируйте короткие спокойные фразы: «Мне так не нравится», «Остановись», «Я не разрешаю брать мои вещи». Разыграйте дома несколько ситуаций, чтобы эти слова было легче использовать в нужный момент.',
+      'Защита границ не означает, что ребёнок должен справляться один. Научите его уходить из опасной ситуации и обращаться к взрослому, который действительно готов вмешаться и помочь.'
+    ]
+  }
+];
+
 const heroSlides = [...document.querySelectorAll('.hero-slide')];
 const heroDots = [...document.querySelectorAll('.pager button')];
 const heroPager = document.querySelector('.pager');
@@ -155,6 +185,10 @@ document.querySelectorAll('.story').forEach((story, index) => {
   });
 });
 
+document.querySelectorAll('.answers .answer').forEach((card) => {
+  card.addEventListener('click', () => openArticle(answerContent[Number(card.dataset.answerIndex)]));
+});
+
 document.querySelectorAll('.why-card').forEach((card) => {
   card.addEventListener('click', () => {
     openSheet('Источник данных', `<p>${card.dataset.source}</p>`);
@@ -171,9 +205,10 @@ sheetContent.addEventListener('click', (event) => {
 const mainPage = document.querySelector('.page');
 const materialsPage = document.querySelector('.materials-page');
 const materialsList = document.querySelector('.materials-list');
+let materialsReturnSelector = '.situations';
 
 const renderMaterials = (audience) => {
-  materialsList.innerHTML = storyContent[audience].map((story, index) => `
+  const situationCards = storyContent[audience].map((story, index) => `
     <article class="story materials-story" data-material-index="${index}" data-material-audience="${audience}">
       <img src="${story.image}" alt="${story.imageAlt}">
       <h2 class="subtitle">${story.title}</h2>
@@ -181,25 +216,44 @@ const renderMaterials = (audience) => {
       <button class="button button--dark material-read" type="button">Читать подробнее</button>
     </article>
   `).join('');
+  const answerCards = audience === 'adults' ? `
+    <section class="materials-extra">
+      <h2 class="subtitle">Ответы на вопросы взрослых</h2>
+      <div class="materials-answer-list">
+        ${answerContent.map((answer, index) => `
+          <button class="answer materials-answer" type="button" data-material-answer="${index}">
+            <img src="${answer.image}" alt="">
+            <b>${answer.title}</b>
+            <span>›</span>
+          </button>
+        `).join('')}
+      </div>
+    </section>
+  ` : '';
+  materialsList.innerHTML = situationCards + answerCards;
 };
 
 function showMainPage(restorePosition = true) {
   materialsPage.hidden = true;
   mainPage.hidden = false;
-  if (restorePosition) document.querySelector('.situations').scrollIntoView({ block: 'start' });
+  if (restorePosition) document.querySelector(materialsReturnSelector).scrollIntoView({ block: 'start' });
 }
 
-document.querySelector('.situations-all').addEventListener('click', () => {
+const openMaterialsPage = (audience, returnSelector) => {
+  materialsReturnSelector = returnSelector;
   mainPage.hidden = true;
   materialsPage.hidden = false;
-  renderMaterials(currentAudience);
+  renderMaterials(audience);
   document.querySelectorAll('.materials-tabs .tab').forEach((tab) => {
-    const selected = tab.dataset.materialsAudience === currentAudience;
+    const selected = tab.dataset.materialsAudience === audience;
     tab.classList.toggle('active', selected);
     tab.setAttribute('aria-selected', String(selected));
   });
   window.scrollTo({ top: 0 });
-});
+};
+
+document.querySelector('.situations-all').addEventListener('click', () => openMaterialsPage(currentAudience, '.situations'));
+document.querySelector('.answers-more').addEventListener('click', () => openMaterialsPage('adults', '.answers'));
 
 document.querySelector('.materials-back').addEventListener('click', () => showMainPage());
 
@@ -216,6 +270,11 @@ document.querySelectorAll('.materials-tabs .tab').forEach((tab) => {
 });
 
 materialsList.addEventListener('click', (event) => {
+  const answerCard = event.target.closest('[data-material-answer]');
+  if (answerCard) {
+    openArticle(answerContent[Number(answerCard.dataset.materialAnswer)]);
+    return;
+  }
   const button = event.target.closest('.material-read');
   if (!button) return;
   const card = button.closest('.materials-story');
