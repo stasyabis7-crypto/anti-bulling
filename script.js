@@ -641,7 +641,7 @@ let lastPickerClick = null;
 const hideAllAppPages = () => { mainPage.hidden = true; materialsPage.hidden = true; moviesPage.hidden = true; trainerPage.hidden = true; foundationPages.forEach((page) => { page.hidden = true; }); };
 const showAppPage = (page, push = true) => { if (push) pageHistory.push([...document.querySelectorAll('main')].find((item) => !item.hidden) || mainPage); hideAllAppPages(); page.hidden = false; window.scrollTo(0, 0); };
 const goBackApp = () => { const previous = pageHistory.pop() || mainPage; hideAllAppPages(); previous.hidden = false; if (previous === mainPage) document.querySelector('.foundations').scrollIntoView({ block: 'start' }); else window.scrollTo(0, 0); };
-const fundCardMarkup = (key, arrow = true) => { const fund = key === '1221' ? { name: 'Фонд 1221', logo: './assets main page/1221.png' } : foundationData[key]; const text = key === 'shalash' ? 'Помогает детям и подросткам с трудным поведением' : key === 'upsala' ? 'Социальный цирк для подростков' : 'Не участвует в Знаке добра'; return `<img src="${fund.logo}" alt=""><span><b>${fund.name}</b><small>${text}</small></span><i>${arrow ? '›' : ''}</i>`; };
+const fundCardMarkup = (key, arrow = true) => { const fund = key === '1221' ? { name: 'Фонд 1221', logo: './assets main page/1221.png' } : foundationData[key]; const text = key === 'shalash' ? 'Помогает детям и подросткам с трудным поведением' : key === 'upsala' ? 'Социальный цирк для подростков' : 'Не участвует в Знаке добра'; return `<img src="${fund.logo}" alt=""><span><b>${fund.name}</b><small>${text}</small></span>${arrow ? '<img class="fund-mini-arrow" src="./assets main page/arrow-right.svg" alt="">' : '<i></i>'}`; };
 const renderFoundation = (key, tab = 'about') => { activeFoundation = key; const fund = foundationData[key]; foundationPage.querySelector('.app-navbar b').textContent = tab === 'about' ? 'О фонде' : 'Добрые дела фонда'; document.querySelector('.foundation-detail').innerHTML = `<div class="fund-verified"><img src="./assets main page/Verify.svg" alt="">Проверенный фонд</div><h1>${fund.name}</h1><div class="fund-tabs"><button class="${tab === 'about' ? 'active' : ''}" data-fund-tab="about">О фонде</button><button class="${tab === 'good' ? 'active' : ''}" data-fund-tab="good">Добрые дела фонда</button></div>${tab === 'about' ? `<div class="fund-hero"><img src="${fund.photo}" alt=""><span class="fund-hero-logo"><img src="${fund.logo}" alt=""></span></div><div class="fund-copy"><p>${fund.description}</p><p><b>Сайт фонда:</b> <a href="${fund.site}" target="_blank" rel="noopener noreferrer">${fund.site.replace('https://','')}</a></p><h2>Юридическая информация</h2><div class="fund-legal"><p><span>Полное юридическое название фонда:</span> ${fund.legal}</p><p><span>ИНН:</span> ${fund.inn}</p><p><span>ОГРН:</span> ${fund.ogrn}</p></div></div>` : `<div class="good-filters"><div class="good-filter"><b>Год</b><div>2026</div></div><div class="good-filter"><b>Месяц</b><div>Февраль</div></div></div><div class="fund-copy"><p>${fund.good}</p></div>`}`; };
 const openFoundation = (key) => { renderFoundation(key); showAppPage(foundationPage); };
 const renderDonationFund = () => { document.querySelector('.donation-fund-card').innerHTML = fundCardMarkup(selectedFoundation); };
@@ -656,3 +656,24 @@ document.querySelector('.picker-list').addEventListener('click', (event) => { co
 document.querySelector('.picker-confirm').addEventListener('click', () => { selectedFoundation = pendingFoundation; renderDonationFund(); goBackApp(); });
 document.querySelectorAll('.app-back').forEach((button) => button.addEventListener('click', goBackApp));
 document.querySelectorAll('.donation-period button,.donation-amounts button').forEach((button) => button.addEventListener('click', () => { button.parentElement.querySelectorAll('button').forEach((item) => item.classList.remove('active')); button.classList.add('active'); }));
+
+const hangingWordPattern = /(^|[\s([\{«„])((?:а|в|во|и|из|к|ко|на|над|не|но|о|об|от|по|под|при|с|со|у|за|без|для|до))\s+(?=\S)/giu;
+const fixHangingWords = (root = document.body) => {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+  textNodes.forEach((node) => {
+    if (node.parentElement?.closest('script,style,textarea,input,[contenteditable="true"]')) return;
+    const fixedText = node.nodeValue.replace(hangingWordPattern, '$1$2\u00a0');
+    if (fixedText !== node.nodeValue) node.nodeValue = fixedText;
+  });
+};
+fixHangingWords();
+new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => mutation.addedNodes.forEach((node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const fixedText = node.nodeValue.replace(hangingWordPattern, '$1$2\u00a0');
+      if (fixedText !== node.nodeValue) node.nodeValue = fixedText;
+    } else if (node.nodeType === Node.ELEMENT_NODE) fixHangingWords(node);
+  }));
+}).observe(document.body, { childList: true, subtree: true });
