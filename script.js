@@ -367,7 +367,12 @@ document.querySelectorAll('.trainer-chips').forEach((group) => {
 });
 
 document.querySelector('.trainer-common input').addEventListener('change', (event) => {
-  setChip(document.querySelector('[data-setting="role"]'), trainerState.role);
+  const roleGroup = document.querySelector('[data-setting="role"]');
+  if (event.target.checked) {
+    roleGroup.querySelectorAll('.trainer-chip').forEach((chip) => chip.classList.add('active'));
+  } else {
+    setChip(roleGroup, trainerState.role);
+  }
 });
 
 document.querySelectorAll('[data-type-info]').forEach((button) => {
