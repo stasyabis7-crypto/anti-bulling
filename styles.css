@@ -65,6 +65,7 @@
 .foundation-detail,.picker-content{padding-bottom:calc(94*var(--u))}.donation-content{padding-bottom:calc(116*var(--u))}.app-subpage{overflow-x:hidden;scroll-padding-bottom:calc(116*var(--u))}
 .fund-mini-card{min-height:0;padding-top:calc(18*var(--u));padding-bottom:calc(28*var(--u))}
 .donation-period.tabs{display:flex;height:calc(52*var(--u));margin:calc(22*var(--u)) 0 calc(16*var(--u));padding:calc(3*var(--u));border-radius:calc(16*var(--u))}.donation-period.tabs .tab{height:auto;min-height:0;border-radius:calc(13*var(--u))}
+.foundation-detail h1{font-size:clamp(30px,calc(32*var(--u)),44px);line-height:1.08}.change-foundation,.donation-amounts button,.donation-amounts input{height:calc(52*var(--u));min-height:52px}
 
 /* Trainer views are mutually exclusive pages inside the trainer route. */
 .trainer-page[data-view="setup"]>.trainer-game,.trainer-page[data-view="setup"]>.trainer-success,.trainer-page[data-view="game"]>.trainer-setup,.trainer-page[data-view="game"]>.trainer-success,.trainer-page[data-view="success"]>.trainer-setup,.trainer-page[data-view="success"]>.trainer-game{display:none!important}
