@@ -154,14 +154,16 @@ document.querySelectorAll('.situations .tab').forEach((tab) => {
 const backdrop = document.querySelector('.sheet-backdrop');
 const sheetTitle = document.querySelector('.sheet-title');
 const sheetContent = document.querySelector('.sheet-content');
+const sheetActions = document.querySelector('.sheet-actions');
 const closeSheet = () => {
   backdrop.hidden = true;
   document.body.classList.remove('sheet-open');
 };
 
-const openSheet = (title, content) => {
+const openSheet = (title, content, showAction = false) => {
   sheetTitle.textContent = title;
   sheetContent.innerHTML = content;
+  sheetActions.hidden = !showAction;
   backdrop.hidden = false;
   document.body.classList.add('sheet-open');
   document.querySelector('.sheet-close').focus();
@@ -171,10 +173,9 @@ const plainTitle = (title) => title.replace(/<br>/g, ' ');
 const articleMarkup = (story) => `
   <div class="article-copy">${story.article.map((paragraph) => `<p>${paragraph}</p>`).join('')}</div>
   <p class="article-help">Если ситуация продолжается или нужна поддержка, обратитесь к специалистам — помощь можно получить конфиденциально.</p>
-  <button class="button button--dark article-help-button" type="button">Обратиться за помощью</button>
 `;
 
-const openArticle = (story) => openSheet(plainTitle(story.title), articleMarkup(story));
+const openArticle = (story) => openSheet(plainTitle(story.title), articleMarkup(story), true);
 
 document.querySelectorAll('.story').forEach((story, index) => {
   story.addEventListener('click', (event) => {
@@ -195,16 +196,11 @@ document.querySelectorAll('.why-card').forEach((card) => {
   });
 });
 
-sheetContent.addEventListener('click', (event) => {
-  if (!event.target.closest('.article-help-button')) return;
-  closeSheet();
-  showMainPage(false);
-  document.querySelector('.help').scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
 const mainPage = document.querySelector('.page');
 const materialsPage = document.querySelector('.materials-page');
 const materialsList = document.querySelector('.materials-list');
+const moviesPage = document.querySelector('.movies-page');
+const moviesList = document.querySelector('.movies-list');
 let materialsReturnSelector = '.situations';
 
 const renderMaterials = (audience) => {
@@ -224,7 +220,7 @@ const renderMaterials = (audience) => {
           <button class="answer materials-answer" type="button" data-material-answer="${index}">
             <img src="${answer.image}" alt="">
             <b>${answer.title}</b>
-            <span>›</span>
+            <img class="answer-arrow" src="./assets main page/arrow-right.svg" alt="">
           </button>
         `).join('')}
       </div>
@@ -235,6 +231,7 @@ const renderMaterials = (audience) => {
 
 function showMainPage(restorePosition = true) {
   materialsPage.hidden = true;
+  moviesPage.hidden = true;
   mainPage.hidden = false;
   if (restorePosition) document.querySelector(materialsReturnSelector).scrollIntoView({ block: 'start' });
 }
@@ -242,6 +239,7 @@ function showMainPage(restorePosition = true) {
 const openMaterialsPage = (audience, returnSelector) => {
   materialsReturnSelector = returnSelector;
   mainPage.hidden = true;
+  moviesPage.hidden = true;
   materialsPage.hidden = false;
   renderMaterials(audience);
   document.querySelectorAll('.materials-tabs .tab').forEach((tab) => {
@@ -254,6 +252,20 @@ const openMaterialsPage = (audience, returnSelector) => {
 
 document.querySelector('.situations-all').addEventListener('click', () => openMaterialsPage(currentAudience, '.situations'));
 document.querySelector('.answers-more').addEventListener('click', () => openMaterialsPage('adults', '.answers'));
+document.querySelector('.hero-materials-button').addEventListener('click', () => openMaterialsPage('children', '.hero'));
+
+document.querySelector('.cartoons-all').addEventListener('click', () => {
+  moviesList.replaceChildren(...[...document.querySelectorAll('.scroller .movie')].map((movie) => movie.cloneNode(true)));
+  mainPage.hidden = true;
+  materialsPage.hidden = true;
+  moviesPage.hidden = false;
+  window.scrollTo({ top: 0 });
+});
+
+document.querySelector('.movies-back').addEventListener('click', () => {
+  showMainPage(false);
+  document.querySelector('.cartoons').scrollIntoView({ block: 'start' });
+});
 
 document.querySelector('.materials-back').addEventListener('click', () => showMainPage());
 

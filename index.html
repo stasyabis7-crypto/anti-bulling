@@ -40,7 +40,7 @@
           <div class="project-card__paper">
             <img class="project-card__picture" src="./assets main page/hero cards/situations.png" alt="Учитель у доски и конфликт между детьми">
             <div class="project-card__copy"><h2>Ситуации</h2><p>Если вы замечаете, что ситуация знакома,<br>посмотрите, что делать</p></div>
-            <button class="project-card__button" type="button">Подробнее</button>
+            <button class="project-card__button hero-materials-button" type="button">Подробнее</button>
           </div>
           <img class="project-card__tape" src="./assets main page/hero cards/purple-tape.png" alt="">
         </article>
@@ -82,9 +82,9 @@
       <h2 class="title">Ответы на вопросы<br>взрослых</h2>
       <p class="lead">Эксперты объясняют, как распознать буллинг и почему без взрослых детям с травлей не справиться</p>
       <div class="answer-list">
-        <button class="answer" data-answer-index="0"><img src="./assets main page/answer-question.png" alt=""><b>Что делать, если<br>моего ребёнка<br>травят?</b><span>›</span></button>
-        <button class="answer" data-answer-index="1"><img src="./assets main page/answer-support.png" alt=""><b>Как поддержать<br>близкого?</b><span>›</span></button>
-        <button class="answer" data-answer-index="2"><img src="./assets main page/answer-boundaries.png" alt=""><b>Как научить ребёнка<br>защищать границы?</b><span>›</span></button>
+        <button class="answer" data-answer-index="0"><img src="./assets main page/answer-question.png" alt=""><b>Что делать, если<br>моего ребёнка<br>травят?</b><img class="answer-arrow" src="./assets main page/arrow-right.svg" alt=""></button>
+        <button class="answer" data-answer-index="1"><img src="./assets main page/answer-support.png" alt=""><b>Как поддержать<br>близкого?</b><img class="answer-arrow" src="./assets main page/arrow-right.svg" alt=""></button>
+        <button class="answer" data-answer-index="2"><img src="./assets main page/answer-boundaries.png" alt=""><b>Как научить ребёнка<br>защищать границы?</b><img class="answer-arrow" src="./assets main page/arrow-right.svg" alt=""></button>
       </div>
       <button class="button button--light answers-more">Узнать больше</button>
     </section>
@@ -106,7 +106,7 @@
         </article>
       </div>
       <span class="movie-counter">1 из 3</span>
-      <button class="button button--muted">Посмотреть все</button>
+      <button class="button button--muted cartoons-all">Посмотреть все</button>
     </section>
 
     <section class="trainer">
@@ -143,7 +143,7 @@
   </main>
   <main class="materials-page" hidden>
     <header class="materials-header">
-      <button class="materials-back" type="button" aria-label="Вернуться назад">←</button>
+      <button class="materials-back" type="button" aria-label="Вернуться назад"><img src="./assets main page/arrow-back.svg" alt=""></button>
       <h1 class="title">Все материалы</h1>
     </header>
     <section class="section materials-content">
@@ -154,11 +154,23 @@
       <div class="materials-list"></div>
     </section>
   </main>
+  <main class="movies-page" hidden>
+    <header class="materials-header">
+      <button class="movies-back materials-back" type="button" aria-label="Вернуться назад"><img src="./assets main page/arrow-back.svg" alt=""></button>
+      <h1 class="title">Все мультфильмы</h1>
+    </header>
+    <section class="section movies-content">
+      <div class="movies-list"></div>
+    </section>
+  </main>
   <div class="sheet-backdrop" hidden>
     <section class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="source-title">
       <button class="sheet-close" aria-label="Закрыть">×</button>
       <h2 class="subtitle sheet-title" id="source-title">Источник данных</h2>
       <div class="sheet-content"></div>
+      <div class="sheet-actions" hidden>
+        <button class="button button--dark article-help-button" type="button">Обратиться за помощью</button>
+      </div>
     </section>
   </div>
   <script src="./script.js"></script>
