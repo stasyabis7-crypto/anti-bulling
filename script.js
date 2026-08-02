@@ -177,14 +177,28 @@ const articleMarkup = (story) => `
 
 const openArticle = (story) => openSheet(plainTitle(story.title), articleMarkup(story), true);
 
+const fullscreenMovie = document.querySelector('.fullscreen-movie');
+const openFullscreenMovie = () => {
+  fullscreenMovie.hidden = false;
+  document.body.classList.add('movie-open');
+  document.querySelector('.fullscreen-movie__close').focus();
+};
+const closeFullscreenMovie = () => {
+  fullscreenMovie.hidden = true;
+  document.body.classList.remove('movie-open');
+};
+
 document.querySelectorAll('.story').forEach((story, index) => {
   story.addEventListener('click', (event) => {
     const button = event.target.closest('.button');
     if (!button) return;
     const content = storyContent[currentAudience][index];
     if (button.classList.contains('story-read') || content.primary === 'Читать подробнее') openArticle(content);
+    if (button.classList.contains('story-primary') && content.primary === 'Посмотреть мультик') openFullscreenMovie();
   });
 });
+
+document.querySelector('.fullscreen-movie__close').addEventListener('click', closeFullscreenMovie);
 
 document.querySelectorAll('.answers .answer').forEach((card) => {
   card.addEventListener('click', () => openArticle(answerContent[Number(card.dataset.answerIndex)]));
@@ -299,6 +313,7 @@ backdrop.addEventListener('click', (event) => {
 });
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && !backdrop.hidden) closeSheet();
+  if (event.key === 'Escape' && !fullscreenMovie.hidden) closeFullscreenMovie();
 });
 
 const scroller = document.querySelector('.scroller');
