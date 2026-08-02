@@ -165,7 +165,7 @@
       <div class="movies-list"></div>
     </section>
   </main>
-  <main class="trainer-page" hidden>
+  <main class="trainer-page" data-view="setup" hidden>
     <header class="materials-header trainer-page-header">
       <button class="trainer-back materials-back" type="button" aria-label="Вернуться назад"><img src="./assets main page/arrow-back.svg" alt=""></button>
       <span class="secondary-header-title">Тренажёр сложных разговоров</span>
@@ -193,11 +193,20 @@
       <div class="trainer-setting">
         <h2 class="subtitle">Типы карточек</h2>
         <div class="trainer-types">
-          <button class="trainer-type trainer-type--question active" type="button" data-type-info="question">Вопрос <span>?</span></button>
-          <button class="trainer-type trainer-type--situation active" type="button" data-type-info="situation">Ситуация <span>?</span></button>
-          <button class="trainer-type trainer-type--dialogue active" type="button" data-type-info="dialogue">Диалог <span>?</span></button>
+          <div class="trainer-type trainer-type--question active" data-type-info="question">
+            <button class="trainer-type-choice" type="button"><img class="trainer-type-check trainer-type-check--off" src="./assets main page/trainer/checkbox-off.svg" alt=""><img class="trainer-type-check trainer-type-check--on" src="./assets main page/trainer/checkbox-on.svg" alt=""><span>Вопрос</span></button>
+            <button class="trainer-type-help" type="button" aria-label="Подробнее о карточках типа Вопрос"><img src="./assets main page/trainer/help.svg" alt=""></button>
+          </div>
+          <div class="trainer-type trainer-type--situation active" data-type-info="situation">
+            <button class="trainer-type-choice" type="button"><img class="trainer-type-check trainer-type-check--off" src="./assets main page/trainer/checkbox-off.svg" alt=""><img class="trainer-type-check trainer-type-check--on" src="./assets main page/trainer/checkbox-on.svg" alt=""><span>Ситуация</span></button>
+            <button class="trainer-type-help" type="button" aria-label="Подробнее о карточках типа Ситуация"><img src="./assets main page/trainer/help.svg" alt=""></button>
+          </div>
+          <div class="trainer-type trainer-type--dialogue active" data-type-info="dialogue">
+            <button class="trainer-type-choice" type="button"><img class="trainer-type-check trainer-type-check--off" src="./assets main page/trainer/checkbox-off.svg" alt=""><img class="trainer-type-check trainer-type-check--on" src="./assets main page/trainer/checkbox-on.svg" alt=""><span>Диалог</span></button>
+            <button class="trainer-type-help" type="button" aria-label="Подробнее о карточках типа Диалог"><img src="./assets main page/trainer/help.svg" alt=""></button>
+          </div>
         </div>
-        <p class="trainer-hint">Нажмите на тип, чтобы добавить или убрать его из колоды</p>
+        <p class="trainer-hint">Отметьте типы, которые хотите добавить в колоду</p>
       </div>
 
       <div class="trainer-setting trainer-setting--row">

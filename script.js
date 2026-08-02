@@ -356,6 +356,7 @@ document.querySelectorAll('.trainer-chips').forEach((group) => {
   group.addEventListener('click', (event) => {
     const chip = event.target.closest('.trainer-chip');
     if (!chip) return;
+    document.querySelector('.trainer-common input').checked = false;
     setChip(group, chip.dataset.value);
     if (group.dataset.setting === 'role') {
       trainerState.role = chip.dataset.value;
@@ -365,14 +366,30 @@ document.querySelectorAll('.trainer-chips').forEach((group) => {
   });
 });
 
+document.querySelector('.trainer-common input').addEventListener('change', (event) => {
+  const roleGroup = document.querySelector('[data-setting="role"]');
+  if (event.target.checked) {
+    roleGroup.querySelectorAll('.trainer-chip').forEach((chip) => chip.classList.remove('active'));
+  } else {
+    setChip(roleGroup, trainerState.role);
+  }
+});
+
 document.querySelectorAll('[data-type-info]').forEach((button) => {
   button.addEventListener('click', (event) => {
-    if (!event.target.closest('span')) {
+    if (event.target.closest('.trainer-type-choice')) {
+      const shuffleEnabled = document.querySelector('.trainer-shuffle:not(.trainer-common) input').checked;
+      if (!shuffleEnabled) {
+        document.querySelectorAll('.trainer-type').forEach((typeButton) => typeButton.classList.remove('active'));
+        button.classList.add('active');
+        return;
+      }
       const activeTypes = document.querySelectorAll('.trainer-type.active');
       if (button.classList.contains('active') && activeTypes.length === 1) return;
       button.classList.toggle('active');
       return;
     }
+    if (!event.target.closest('.trainer-type-help')) return;
     const info = {
       question: ['Вопрос', 'Проверьте знания о травле и выберите безопасный способ поддержки. После ответа карточка покажет рекомендацию психолога.'],
       situation: ['Ситуация', 'Представьте конкретный случай и решите, как поступить. Затем сравните свой вариант с безопасной стратегией.'],
@@ -380,6 +397,11 @@ document.querySelectorAll('[data-type-info]').forEach((button) => {
     }[button.dataset.typeInfo];
     openSheet(info[0], `<p>${info[1]}</p>`);
   });
+});
+
+document.querySelector('.trainer-shuffle:not(.trainer-common) input').addEventListener('change', (event) => {
+  const typeButtons = [...document.querySelectorAll('.trainer-type')];
+  typeButtons.forEach((button, index) => button.classList.toggle('active', event.target.checked || index === 0));
 });
 
 const setTrainerCount = (value) => {
@@ -458,12 +480,21 @@ const renderGameCard = () => {
 };
 
 const showTrainerState = (state) => {
+  trainerPage.dataset.view = state;
   trainerSetup.hidden = state !== 'setup';
   trainerGame.hidden = state !== 'game';
   trainerSuccess.hidden = state !== 'success';
+  trainerSetup.setAttribute('aria-hidden', state !== 'setup');
+  trainerGame.setAttribute('aria-hidden', state !== 'game');
+  trainerSuccess.setAttribute('aria-hidden', state !== 'success');
   document.querySelector('.trainer-success-close').hidden = state !== 'success';
-  window.scrollTo({ top: 0 });
-  window.requestAnimationFrame(updateSecondaryHeaders);
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.requestAnimationFrame(() => {
+    window.scrollTo(0, 0);
+    updateSecondaryHeaders();
+  });
 };
 
 const openTrainerPage = (returnSelector) => {
