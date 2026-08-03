@@ -134,7 +134,6 @@ const heroDots = [...document.querySelectorAll('.pager button')];
 const heroPager = document.querySelector('.pager');
 const heroCarousel = document.querySelector('.hero-carousel');
 let activeHeroSlide = 0;
-let heroTimer;
 
 const showHeroSlide = (index) => {
   activeHeroSlide = (index + heroSlides.length) % heroSlides.length;
@@ -143,14 +142,8 @@ const showHeroSlide = (index) => {
   heroCarousel.scrollTo({ left: activeHeroSlide * heroCarousel.clientWidth, behavior: 'smooth' });
 };
 
-const startHeroCarousel = () => {
-  window.clearInterval(heroTimer);
-  heroTimer = window.setInterval(() => showHeroSlide(activeHeroSlide + 1), 4000);
-};
-
 heroDots.forEach((dot, index) => dot.addEventListener('click', () => {
   showHeroSlide(index);
-  startHeroCarousel();
 }));
 heroCarousel.addEventListener('scroll', () => {
   const index = Math.round(heroCarousel.scrollLeft / heroCarousel.clientWidth);
@@ -160,12 +153,6 @@ heroCarousel.addEventListener('scroll', () => {
     heroPager.setAttribute('aria-label', `Слайд ${activeHeroSlide + 1} из 3`);
   }
 }, { passive: true });
-heroCarousel.addEventListener('pointerdown', () => window.clearInterval(heroTimer));
-heroCarousel.addEventListener('pointerup', startHeroCarousel);
-heroCarousel.addEventListener('pointercancel', startHeroCarousel);
-heroCarousel.addEventListener('pointerenter', () => window.clearInterval(heroTimer));
-heroCarousel.addEventListener('pointerleave', startHeroCarousel);
-startHeroCarousel();
 
 let currentAudience = 'children';
 
