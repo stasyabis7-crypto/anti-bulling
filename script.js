@@ -142,6 +142,56 @@ const showHeroSlide = (index) => {
   heroCarousel.scrollTo({ left: activeHeroSlide * heroCarousel.clientWidth, behavior: 'smooth' });
 };
 
+const enableDirectionalSwipe = (scroller, itemSelector) => {
+  let startX = 0;
+  let startY = 0;
+  let startScrollLeft = 0;
+  let direction = null;
+
+  scroller.addEventListener('touchstart', (event) => {
+    const touch = event.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+    startScrollLeft = scroller.scrollLeft;
+    direction = null;
+  }, { passive: true });
+
+  scroller.addEventListener('touchmove', (event) => {
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - startX;
+    const deltaY = touch.clientY - startY;
+
+    if (!direction && Math.max(Math.abs(deltaX), Math.abs(deltaY)) > 8) {
+      direction = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical';
+      if (direction === 'horizontal') scroller.classList.add('is-dragging');
+    }
+
+    if (direction !== 'horizontal') return;
+    event.preventDefault();
+    scroller.scrollLeft = startScrollLeft - deltaX;
+  }, { passive: false });
+
+  const finishSwipe = () => {
+    if (direction === 'horizontal') {
+      const items = [...scroller.querySelectorAll(itemSelector)];
+      const scrollerLeft = scroller.getBoundingClientRect().left;
+      const targets = items.map((item) => scroller.scrollLeft + item.getBoundingClientRect().left - scrollerLeft);
+      const closestTarget = targets.reduce((best, target) => (
+        Math.abs(target - scroller.scrollLeft) < Math.abs(best - scroller.scrollLeft) ? target : best
+      ), targets[0]);
+      scroller.classList.remove('is-dragging');
+      if (Number.isFinite(closestTarget)) scroller.scrollTo({ left: closestTarget, behavior: 'smooth' });
+    }
+    direction = null;
+  };
+
+  scroller.addEventListener('touchend', finishSwipe, { passive: true });
+  scroller.addEventListener('touchcancel', finishSwipe, { passive: true });
+};
+
+enableDirectionalSwipe(heroCarousel, '.hero-slide');
+document.querySelectorAll('.scroller').forEach((scroller) => enableDirectionalSwipe(scroller, '.movie'));
+
 heroDots.forEach((dot, index) => dot.addEventListener('click', () => {
   showHeroSlide(index);
 }));
