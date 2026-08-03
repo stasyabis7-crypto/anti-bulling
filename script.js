@@ -1,8 +1,8 @@
 const storyContent = {
   children: [
     {
-      title: 'Я подросток, и мне<br>плохо в классе',
-      text: 'Куда обратиться, как попросить помощи,<br>что сказать взрослым',
+      title: 'Я подросток, и мне плохо в классе',
+      text: 'Куда обратиться, как попросить помощи, что сказать взрослым',
       primary: 'Посмотреть мультик',
       showSecondary: true,
       image: './assets main page/img 1 card.png',
@@ -14,7 +14,7 @@ const storyContent = {
       ]
     },
     {
-      title: 'Я вижу, что травят<br>другого',
+      title: 'Я вижу, что травят другого',
       text: 'Что может сделать свидетель',
       primary: 'Читать подробнее',
       showSecondary: false,
@@ -29,8 +29,8 @@ const storyContent = {
   ],
   adults: [
     {
-      title: 'Моего ребёнка<br>травят в школе',
-      text: 'Как заметить травлю и правильно<br>поддержать ребёнка',
+      title: 'Моего ребёнка травят в школе',
+      text: 'Как заметить травлю и правильно поддержать ребёнка',
       primary: 'Читать подробнее',
       showSecondary: false,
       image: './assets main page/adult-card-choice.png',
@@ -42,8 +42,8 @@ const storyContent = {
       ]
     },
     {
-      title: 'Мой ребёнок травит<br>другого',
-      text: 'Как поговорить без обвинений<br>и остановить агрессию',
+      title: 'Мой ребёнок травит другого',
+      text: 'Как поговорить без обвинений и остановить агрессию',
       primary: 'Читать подробнее',
       showSecondary: false,
       image: './assets main page/adult-card-aggressor.png',
